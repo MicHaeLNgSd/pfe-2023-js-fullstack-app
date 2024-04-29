@@ -1,0 +1,32 @@
+.inputArea {
+  display: flex;
+  padding: 5px;
+  background-color: darkslategray;
+}
+
+.messageInput {
+  flex: 1;
+  color: white;
+  background-color: darkslategray;
+  font-size: 1.5rem;
+  border: 0;
+  padding: 10px 5px;
+
+  overflow: hidden;
+  resize: none;
+  max-width: 100%;
+
+  &::placeholder {
+    color: lightgrey;
+  }
+}
+
+.messageSendBtn {
+  font-size: 1.5rem;
+  background-color: cornflowerblue;
+  color: white;
+  font-weight: bold;
+  border: 0;
+  border-radius: 15px;
+  padding: 5px 10px;
+}

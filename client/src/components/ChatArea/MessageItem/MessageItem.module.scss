@@ -1,0 +1,30 @@
+.messageItem {
+  display: flex;
+  align-items: center;
+  width: 40%;
+
+  & + .messageItem {
+    margin-top: 20px;
+  }
+
+  &.own {
+    align-self: flex-end;
+  }
+}
+
+.textSection {
+  flex: 1;
+  border-radius: 10px;
+  background-color: darkslategray;
+  padding: 10px 10px;
+
+  .own & {
+    background-color: cornflowerblue;
+    align-self: flex-end;
+  }
+}
+
+.author {
+  font-weight: bold;
+  margin-bottom: 10px;
+}
