@@ -4,7 +4,7 @@ import styles from './ChatArea.module.scss';
 import MessageItem from './MessageItem';
 import MessageForm from './MessageForm';
 
-function ChatArea({ chat, userId }) {
+function ChatArea({ chat, userId, setChat }) {
   const chatAreaClassNames = classNames(styles.chatArea, {
     [styles.chatAreaNoChat]: !chat,
   });
@@ -29,7 +29,7 @@ function ChatArea({ chat, userId }) {
           ))}
         </ul>
       </section>
-      <MessageForm />
+      <MessageForm userId={userId} chatId={chat._id} setChat={setChat} />
     </article>
   );
 } //textbox

@@ -126,3 +126,8 @@ export async function getChat(chatId) {
   const response = await httpClient.get(`/chats/${chatId}`);
   return response;
 }
+
+export async function addMessageToChat(chatId, body) {
+  const response = await httpClient.post(`/chats/${chatId}`, body);
+  return response;
+}

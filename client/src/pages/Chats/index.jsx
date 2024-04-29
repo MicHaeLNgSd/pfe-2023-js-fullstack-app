@@ -34,7 +34,7 @@ function ChatsPage() {
           <ChatList chats={chats} chatId={chat?._id} setChat={setChat} />
         </aside>
         <main className={styles.chatAreaWrapper}>
-          <ChatArea chat={chat} userId={userId} />
+          <ChatArea chat={chat} userId={userId} setChat={setChat} />
         </main>
       </div>
     </>
