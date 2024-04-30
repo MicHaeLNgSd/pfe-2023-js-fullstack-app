@@ -9,7 +9,7 @@ const initialValues = {
   text: '',
 };
 
-function MessageForm({ chatId, userId, setChat }) {
+function MessageForm({ chatId, userId, chat, setChats }) {
   const [{ user }, setUserData] = useContext(UserContext);
   const handleSubmit = async (values, formikBag) => {
     const {
@@ -20,15 +20,21 @@ function MessageForm({ chatId, userId, setChat }) {
     });
 
     newMessage.author = user;
-    setChat((chat) => {
+    setChats((chats) => {
+      const restChats = chats.filter((c) => c._id !== chat._id);
       const updatedChat = { ...chat, messages: [...chat.messages, newMessage] };
-      return updatedChat;
+      const updatedChats = [updatedChat, ...restChats];
+      return updatedChats;
     });
     formikBag.resetForm();
   };
 
   return (
-    <Formik initialValues={initialValues} onSubmit={handleSubmit}>
+    <Formik
+      initialValues={initialValues}
+      onSubmit={handleSubmit}
+      className={styles.inputAreaWrapper}
+    >
       <Form className={styles.inputArea}>
         <Field
           name='text'

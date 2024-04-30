@@ -13,7 +13,6 @@
 
 .chatHeader {
   background-color: darkslategray;
-  margin-bottom: 20px;
   padding: 10px 20px;
   min-height: 60px;
 
@@ -27,7 +26,8 @@
 
 .messagesWrapper {
   flex: 1;
-  padding: 0 20px;
+  padding: 20px 20px;
+  overflow-y: scroll;
 }
 
 .messageList {

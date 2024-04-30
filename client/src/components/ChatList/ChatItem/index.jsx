@@ -11,17 +11,21 @@ const clickHandler = (setChat, chatId) => {
 function ChatItem({
   chat: { _id, isPrivate, name, messages, coverImage: imgUrl },
   chatId,
-  setChat
+  setChat,
 }) {
+  console.log(name);
   const lastMsg = messages.slice(-1)[0];
-  const { author: { firstName, lastName }, text } = lastMsg || { author: {}};
+  const {
+    author: { firstName, lastName },
+    text,
+  } = lastMsg || { author: {} };
 
   const chatItemStyle = classNames(styles.chatItem, {
     [styles.active]: _id === chatId,
   });
 
   return (
-    <li key={_id} className={chatItemStyle} onClick={() => clickHandler(setChat, _id)}>
+    <li className={chatItemStyle} onClick={() => clickHandler(setChat, _id)}>
       <section className={styles.chatInfo}>
         <ChatLogo chat={{ name, imgUrl }} />
         <div>

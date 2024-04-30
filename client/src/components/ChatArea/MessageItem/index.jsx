@@ -9,7 +9,7 @@ function MessageItem({ message: { _id, author, text }, userId }) {
   });
 
   return (
-    <li key={_id} className={styleMessageItem}>
+    <li className={styleMessageItem}>
       <ChatLogo chat={{ name: author?.firstName }} />
       <div className={styles.textSection}>
         <h3 className={styles.author}>{author?.firstName}</h3>
