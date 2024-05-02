@@ -1,20 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import * as ActionCreators from './../../store/actions/actionCreators';
 
-function Counter({ count, step, dispatch }) {
-  const increment = () => {
-    dispatch({ type: 'increment' });
-  };
-
-  const decrement = () => {
-    dispatch({ type: 'decrement' });
-  };
-
-  const setStep = () => {
-    const newStep = Number(prompt('Write down your new step'));
-    dispatch({ type: 'setStep', payload: newStep });
-  };
-
+function Counter({ count, step, increment, decrement, setStep }) {
   return (
     <div>
       <p>Current count is {count}</p>
@@ -26,8 +14,11 @@ function Counter({ count, step, dispatch }) {
   );
 }
 
-const mapStateToProps = (state) => {
-  return state;
-};
+const mapStateToProps = (state) => state;
+const mapDispatchToProps = (dispatch) => ({
+  increment: () => dispatch(ActionCreators.incrementCreator()),
+  decrement: () => dispatch(ActionCreators.decrementCreator()),
+  setStep: ({ target: { value } }) => dispatch(ActionCreators.setStepCreator(value)),
+});
 
-export default connect(mapStateToProps)(Counter);
+export default connect(mapStateToProps, mapDispatchToProps)(Counter);
