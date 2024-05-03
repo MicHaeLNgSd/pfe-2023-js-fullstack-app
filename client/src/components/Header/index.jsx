@@ -1,18 +1,17 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import { NavLink } from 'react-router-dom';
 import styles from './Header.module.scss';
-import UserContext from '../../contexts/userContext';
 import { logout } from '../../api';
+import { logoutCreator } from '../../store/actions/actionCreators';
+import { connect } from 'react-redux';
 
-const Header = (props) => {
-  const [{ user }, dispatch] = useContext(UserContext);
-
+const Header = ({ user, logoutAction }) => {
   const handleLogout = () => {
     // видаляємо токен з локалСтораджу
     logout();
 
     // видаляємо користувача зі стейту
-    dispatch({ type: 'logout' });
+    logoutAction();
   };
 
   return (
@@ -97,4 +96,10 @@ const Header = (props) => {
   );
 };
 
-export default Header;
+const mapStateToProps = ({ user }) => user;
+
+const mapDispatchToProps = (dispatch) => ({
+  logoutAction: () => dispatch(logoutCreator()),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Header);

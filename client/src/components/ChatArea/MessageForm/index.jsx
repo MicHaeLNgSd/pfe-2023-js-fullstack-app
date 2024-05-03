@@ -1,9 +1,9 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import { Field, Form, Formik } from 'formik';
 import styles from './MessageForm.module.scss';
 import { addMessageToChat } from '../../../api';
-import UserContext from '../../../contexts/userContext';
 import * as Yup from 'yup';
+import { connect } from 'react-redux';
 
 const inputPlaceholder = 'Enter your text';
 const initialValues = {
@@ -13,8 +13,7 @@ const validationSchema = Yup.object({
   text: Yup.string().required(),
 });
 
-function MessageForm({ chatId, userId, chat, setChat, setChats }) {
-  const [{ user }, setUserData] = useContext(UserContext);
+function MessageForm({ user, chatId, userId, chat, setChat, setChats }) {
   const handleSubmit = async (values, formikBag) => {
     const {
       data: { data: newMessage },
@@ -56,4 +55,6 @@ function MessageForm({ chatId, userId, chat, setChat, setChats }) {
   );
 }
 
-export default MessageForm;
+const mapStateToProps = ({ user }) => user;
+
+export default connect(mapStateToProps)(MessageForm);

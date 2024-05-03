@@ -1,9 +1,10 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import cx from 'classnames';
 import { USER_UPDATE_SCHEMA } from '../../../validation/userValidation';
-import UserContext from '../../../contexts/userContext';
 import styles from './UpdateUserForm.module.scss';
+import { connect } from 'react-redux';
+import { userSuccessCreator } from '../../../store/actions/actionCreators';
 
 const initialValues = {
   firstName: '',
@@ -15,9 +16,7 @@ const initialValues = {
   gender: '',
 };
 
-const UpdateUserForm = (props) => {
-  const [{ user }, dispatch] = useContext(UserContext);
-
+const UpdateUserForm = ({ user, userSuccess }) => {
   const handleSubmit = (values, formikBag) => {
     const updatedUserFields = {};
 
@@ -32,13 +31,14 @@ const UpdateUserForm = (props) => {
     console.log(updatedUserFields);
 
     // TODO переробити на запит на сервер
-    dispatch({
-      type: 'userSuccess',
-      user: {
-        ...user,
-        ...updatedUserFields,
-      },
-    });
+    userSuccess({ ...user, ...updatedUserFields });
+    // dispatch({
+    //   type: 'userSuccess',
+    //   user: {
+    //     ...user,
+    //     ...updatedUserFields,
+    //   },
+    // });
   };
 
   return (
@@ -52,62 +52,30 @@ const UpdateUserForm = (props) => {
           <label htmlFor='firstName' className={styles.label}>
             First name:
           </label>
-          <Field
-            type='text'
-            name='firstName'
-            id='firstName'
-            className={styles.input}
-          />
+          <Field type='text' name='firstName' id='firstName' className={styles.input} />
         </div>
-        <ErrorMessage
-          name='firstName'
-          component='div'
-          className={styles.error}
-        />
+        <ErrorMessage name='firstName' component='div' className={styles.error} />
         <div className={styles.inputContainer}>
           <label htmlFor='lastName' className={styles.label}>
             Last name:
           </label>
-          <Field
-            type='text'
-            name='lastName'
-            id='lastName'
-            className={styles.input}
-          />
+          <Field type='text' name='lastName' id='lastName' className={styles.input} />
         </div>
-        <ErrorMessage
-          name='lastName'
-          component='div'
-          className={styles.error}
-        />
+        <ErrorMessage name='lastName' component='div' className={styles.error} />
         <div className={styles.inputContainer}>
           <label htmlFor='email' className={styles.label}>
             Email:
           </label>
-          <Field
-            type='email'
-            name='email'
-            id='email'
-            className={styles.input}
-          />
+          <Field type='email' name='email' id='email' className={styles.input} />
         </div>
         <ErrorMessage name='email' component='div' className={styles.error} />
         <div className={styles.inputContainer}>
           <label htmlFor='password' className={styles.label}>
             Password:
           </label>
-          <Field
-            type='password'
-            name='password'
-            id='password'
-            className={styles.input}
-          />
+          <Field type='password' name='password' id='password' className={styles.input} />
         </div>
-        <ErrorMessage
-          name='password'
-          component='div'
-          className={styles.error}
-        />
+        <ErrorMessage name='password' component='div' className={styles.error} />
         <div className={styles.inputContainer}>
           <label htmlFor='passwordRepeat' className={styles.label}>
             Repeat Password:
@@ -119,36 +87,22 @@ const UpdateUserForm = (props) => {
             className={styles.input}
           />
         </div>
-        <ErrorMessage
-          name='passwordRepeat'
-          component='div'
-          className={styles.error}
-        />
+        <ErrorMessage name='passwordRepeat' component='div' className={styles.error} />
         <fieldset className={styles.genderContainer}>
           <legend className={styles.genderHeading}>Gender: </legend>
           <div className={styles.radioContainer}>
             <Field type='radio' name='gender' id='male' value='male' />
-            <label
-              htmlFor='male'
-              className={cx(styles.label, styles.radioLabel)}
-            >
+            <label htmlFor='male' className={cx(styles.label, styles.radioLabel)}>
               Male
             </label>
           </div>
           <div className={styles.radioContainer}>
             <Field type='radio' name='gender' id='female' value='female' />
-            <label
-              htmlFor='female'
-              className={cx(styles.label, styles.radioLabel)}
-            >
+            <label htmlFor='female' className={cx(styles.label, styles.radioLabel)}>
               Female
             </label>
           </div>
-          <ErrorMessage
-            name='gender'
-            component='div'
-            className={styles.error}
-          />
+          <ErrorMessage name='gender' component='div' className={styles.error} />
         </fieldset>
         <div className={styles.btnContainer}>
           <button type='submit' className={styles.btn}>
@@ -163,4 +117,10 @@ const UpdateUserForm = (props) => {
   );
 };
 
-export default UpdateUserForm;
+const mapStateToProps = ({ user }) => user;
+
+const mapDispatchToProps = (dispatch) => ({
+  userSuccess: () => dispatch(userSuccessCreator()),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(UpdateUserForm);

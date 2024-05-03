@@ -1,12 +1,10 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import { Route, Redirect } from 'react-router-dom';
-import UserContext from '../../contexts/userContext';
+import { connect } from 'react-redux';
 
 // Замінник Route для маршрутів на фронті
 // які мають бути доступні тількі авторизованим користувачам
-const PrivateRoute = (props) => {
-  const [{ user, isLoading }] = useContext(UserContext);
-
+const PrivateRoute = ({ user, isLoading, error, ...props }) => {
   // якщо  дані користувача магаються отримати то можна про це споівстити користувача
   if (isLoading) {
     return <div>LOADING ...</div>;
@@ -21,4 +19,6 @@ const PrivateRoute = (props) => {
   return <Redirect to='/' />;
 };
 
-export default PrivateRoute;
+const mapStateToProps = ({ user }) => user;
+
+export default connect(mapStateToProps)(PrivateRoute);

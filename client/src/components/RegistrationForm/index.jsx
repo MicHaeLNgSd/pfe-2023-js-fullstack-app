@@ -1,10 +1,11 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import cx from 'classnames';
 import { registration } from '../../api';
 import { USER_REGISTRATION_SCHEMA } from '../../validation/userValidation';
 import styles from './RegistrationForm.module.scss';
-import UserContext from '../../contexts/userContext';
+import { connect } from 'react-redux';
+import * as ActionCreators from './../../store/actions/actionCreators';
 
 const initialValues = {
   firstName: '',
@@ -16,9 +17,7 @@ const initialValues = {
   gender: 'male',
 };
 
-const RegistrationForm = (props) => {
-  const [_, dispatch] = useContext(UserContext);
-
+const RegistrationForm = ({ userRequest, userSuccess, userError }) => {
   const handleSubmit = async (values, formikBag) => {
     const { gender, ...restUser } = values;
 
@@ -28,7 +27,7 @@ const RegistrationForm = (props) => {
     };
 
     // запам'ятовуємо у стані що робимо запит на сервер
-    dispatch({ type: 'userRequest' });
+    userRequest();
 
     try {
       // запит на сервер
@@ -38,12 +37,12 @@ const RegistrationForm = (props) => {
         },
       } = await registration(newUserData);
       // при успішному запиту зберігаємо юзера
-      dispatch({ type: 'userSuccess', user });
+      userSuccess(user);
     } catch (error) {
       // при неуспішному запиту зберігаємо помилку
-      dispatch({ type: 'userError', error });
+      userError(error);
     }
-    
+
     formikBag.resetForm();
   };
 
@@ -58,62 +57,30 @@ const RegistrationForm = (props) => {
           <label htmlFor='firstName' className={styles.label}>
             First name:
           </label>
-          <Field
-            type='text'
-            name='firstName'
-            id='firstName'
-            className={styles.input}
-          />
+          <Field type='text' name='firstName' id='firstName' className={styles.input} />
         </div>
-        <ErrorMessage
-          name='firstName'
-          component='div'
-          className={styles.error}
-        />
+        <ErrorMessage name='firstName' component='div' className={styles.error} />
         <div className={styles.inputContainer}>
           <label htmlFor='lastName' className={styles.label}>
             Last name:
           </label>
-          <Field
-            type='text'
-            name='lastName'
-            id='lastName'
-            className={styles.input}
-          />
+          <Field type='text' name='lastName' id='lastName' className={styles.input} />
         </div>
-        <ErrorMessage
-          name='lastName'
-          component='div'
-          className={styles.error}
-        />
+        <ErrorMessage name='lastName' component='div' className={styles.error} />
         <div className={styles.inputContainer}>
           <label htmlFor='email' className={styles.label}>
             Email:
           </label>
-          <Field
-            type='email'
-            name='email'
-            id='email'
-            className={styles.input}
-          />
+          <Field type='email' name='email' id='email' className={styles.input} />
         </div>
         <ErrorMessage name='email' component='div' className={styles.error} />
         <div className={styles.inputContainer}>
           <label htmlFor='password' className={styles.label}>
             Password:
           </label>
-          <Field
-            type='password'
-            name='password'
-            id='password'
-            className={styles.input}
-          />
+          <Field type='password' name='password' id='password' className={styles.input} />
         </div>
-        <ErrorMessage
-          name='password'
-          component='div'
-          className={styles.error}
-        />
+        <ErrorMessage name='password' component='div' className={styles.error} />
         <div className={styles.inputContainer}>
           <label htmlFor='passwordRepeat' className={styles.label}>
             Repeat Password:
@@ -125,36 +92,22 @@ const RegistrationForm = (props) => {
             className={styles.input}
           />
         </div>
-        <ErrorMessage
-          name='passwordRepeat'
-          component='div'
-          className={styles.error}
-        />
+        <ErrorMessage name='passwordRepeat' component='div' className={styles.error} />
         <fieldset className={styles.genderContainer}>
           <legend className={styles.genderHeading}>Gender: </legend>
           <div className={styles.radioContainer}>
             <Field type='radio' name='gender' id='male' value='male' />
-            <label
-              htmlFor='male'
-              className={cx(styles.label, styles.radioLabel)}
-            >
+            <label htmlFor='male' className={cx(styles.label, styles.radioLabel)}>
               Male
             </label>
           </div>
           <div className={styles.radioContainer}>
             <Field type='radio' name='gender' id='female' value='female' />
-            <label
-              htmlFor='female'
-              className={cx(styles.label, styles.radioLabel)}
-            >
+            <label htmlFor='female' className={cx(styles.label, styles.radioLabel)}>
               Female
             </label>
           </div>
-          <ErrorMessage
-            name='gender'
-            component='div'
-            className={styles.error}
-          />
+          <ErrorMessage name='gender' component='div' className={styles.error} />
         </fieldset>
         <div className={styles.btnContainer}>
           <button type='submit' className={styles.btn}>
@@ -169,4 +122,13 @@ const RegistrationForm = (props) => {
   );
 };
 
-export default RegistrationForm;
+const mapStateToProps = ({ user }) => user;
+
+const mapDispatchToProps = (dispatch) => ({
+  userRequest: () => dispatch(ActionCreators.userRequestCreator()),
+  userSuccess: (value) => dispatch(ActionCreators.userSuccessCreator(value)),
+  userError: (value) => dispatch(ActionCreators.userErrorCreator(value)),
+  logout: () => dispatch(ActionCreators.logoutCreator()),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(RegistrationForm);
