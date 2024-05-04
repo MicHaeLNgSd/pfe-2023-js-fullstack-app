@@ -1,9 +1,9 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 import styles from './Header.module.scss';
 import { logout } from '../../api';
 import { logoutCreator } from '../../store/actions/actionCreators';
-import { connect } from 'react-redux';
 
 const Header = ({ user, logoutAction }) => {
   const handleLogout = () => {

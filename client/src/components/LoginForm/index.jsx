@@ -11,7 +11,7 @@ const initialValues = {
   password: '',
 };
 
-const LoginForm = ({ isLoading, error, userRequest, userSuccess, userError }) => {
+const LoginForm = ({ userRequest, userSuccess, userError }) => {
   const handleSubmit = async (values, formikBag) => {
     // запам'ятовуємо у стані що робимо запит на сервер
     userRequest();
@@ -66,8 +66,6 @@ const LoginForm = ({ isLoading, error, userRequest, userSuccess, userError }) =>
   );
 };
 
-const mapStateToProps = ({ user }) => user;
-
 const mapDispatchToProps = (dispatch) => ({
   userRequest: () => dispatch(ActionCreators.userRequestCreator()),
   userSuccess: (value) => dispatch(ActionCreators.userSuccessCreator(value)),
@@ -75,4 +73,4 @@ const mapDispatchToProps = (dispatch) => ({
   logout: () => dispatch(ActionCreators.logoutCreator()),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(LoginForm);
+export default connect(null, mapDispatchToProps)(LoginForm);

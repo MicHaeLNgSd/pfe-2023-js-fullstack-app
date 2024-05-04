@@ -1,18 +1,13 @@
 import React, { useContext, useEffect, useState } from 'react';
 import Header from '../../components/Header';
-import UserContext from '../../contexts/userContext';
 import ChatList from '../../components/ChatList';
 import { getChats } from '../../api';
 import ChatArea from '../../components/ChatArea';
 import styles from './Chats.module.scss';
+import { useSelector } from 'react-redux';
 
 function ChatsPage() {
-  const [
-    {
-      user: { _id: userId },
-    },
-    dispatch,
-  ] = useContext(UserContext);
+  const userId = useSelector((store) => store.user.user?._id);
 
   const [chats, setChats] = useState([]);
   const [chat, setChat] = useState();

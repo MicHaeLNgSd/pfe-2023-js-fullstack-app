@@ -122,8 +122,6 @@ const RegistrationForm = ({ userRequest, userSuccess, userError }) => {
   );
 };
 
-const mapStateToProps = ({ user }) => user;
-
 const mapDispatchToProps = (dispatch) => ({
   userRequest: () => dispatch(ActionCreators.userRequestCreator()),
   userSuccess: (value) => dispatch(ActionCreators.userSuccessCreator(value)),
@@ -131,4 +129,4 @@ const mapDispatchToProps = (dispatch) => ({
   logout: () => dispatch(ActionCreators.logoutCreator()),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(RegistrationForm);
+export default connect(null, mapDispatchToProps)(RegistrationForm);

@@ -1,9 +1,9 @@
 import { useEffect } from 'react';
 import { Switch, Route } from 'react-router-dom';
+import { connect } from 'react-redux';
 import HomePage from './pages/Home';
 import ProfilePage from './pages/Profile';
 import RegistrationPage from './pages/Registration';
-// import UserContext from './contexts/userContext';
 import UsersPage from './pages/Users';
 import LoginPage from './pages/Login';
 import { refresh } from './api';
@@ -11,7 +11,6 @@ import CONSTANTS from './constants';
 import PrivateRoute from './components/PrivateRoute';
 import PublicOnlyRoute from './components/PublicOnlyRoute';
 import ChatsPage from './pages/Chats';
-import { connect } from 'react-redux';
 import * as ActionCreators from './../../client/src/store/actions/actionCreators';
 
 function App({ userRequest, userSuccess, userError }) {
@@ -49,7 +48,6 @@ const mapDispatchToProps = (dispatch) => ({
   userRequest: () => dispatch(ActionCreators.userRequestCreator()),
   userSuccess: (value) => dispatch(ActionCreators.userSuccessCreator(value)),
   userError: (value) => dispatch(ActionCreators.userErrorCreator(value)),
-  logout: () => dispatch(ActionCreators.logoutCreator()),
 });
 
 export default connect(null, mapDispatchToProps)(App);
