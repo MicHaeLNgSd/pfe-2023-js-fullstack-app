@@ -10,6 +10,8 @@ const ACTION_TYPES = {
   USER_SUCCESS: 'user/userSuccess',
   USER_ERROR: 'user/userError',
   LOGOUT: 'logout',
+
+  SET_CHAT: 'chat/setChat',
 };
 
 export default ACTION_TYPES;

@@ -1,10 +1,13 @@
 import React from 'react';
 import classNames from 'classnames';
+import { useSelector } from 'react-redux';
 import styles from './ChatArea.module.scss';
 import MessageItem from './MessageItem';
 import MessageForm from './MessageForm';
 
-function ChatArea({ chat, userId, ...rest }) {
+function ChatArea({ userId, setChats }) {
+  const chat = useSelector((s) => s.chat.chat);
+
   const chatAreaClassNames = classNames(styles.chatArea, {
     [styles.chatAreaNoChat]: !chat,
   });
@@ -20,7 +23,7 @@ function ChatArea({ chat, userId, ...rest }) {
     <article className={chatAreaClassNames}>
       <header className={styles.chatHeader}>
         <h2 className={styles.chatName}>{chat.name}</h2>
-        <p>users: {chat.users.length}</p>
+        <p>users: {chat?.users.length}</p>
       </header>
       <section className={styles.messagesWrapper}>
         <ul className={styles.messageList}>
@@ -29,7 +32,7 @@ function ChatArea({ chat, userId, ...rest }) {
           ))}
         </ul>
       </section>
-      <MessageForm userId={userId} chatId={chat._id} chat={chat} {...rest} />
+      <MessageForm userId={userId} chat={chat} setChats={setChats} />
     </article>
   );
 } //textbox

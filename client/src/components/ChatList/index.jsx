@@ -2,13 +2,13 @@ import React from 'react';
 import styles from './ChatList.module.scss';
 import ChatItem from './ChatItem';
 
-function ChatList({ chats = [], ...rest }) {
+function ChatList({ chats = [] }) {
   return (
     <section className={styles.chatList}>
       {chats.length && (
         <ul>
           {chats.map((c) => (
-            <ChatItem key={c._id} chat={c} {...rest} />
+            <ChatItem key={c._id} chat={c} />
           ))}
         </ul>
       )}

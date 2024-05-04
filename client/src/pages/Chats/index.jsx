@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Header from '../../components/Header';
 import ChatList from '../../components/ChatList';
 import { getChats } from '../../api';
@@ -10,7 +10,6 @@ function ChatsPage() {
   const userId = useSelector((store) => store.user.user?._id);
 
   const [chats, setChats] = useState([]);
-  const [chat, setChat] = useState();
   // const [isLoading, setIsLoading] = useState(false);
   // const [error, setError] = useState(null);
 
@@ -18,18 +17,18 @@ function ChatsPage() {
     getChats(userId).then((res) => {
       setChats(res.data.data);
     });
-  }, []);
+  }, [userId]);
 
   return (
     <>
       <Header />
       <div className={styles.asideMainWrapper}>
         <aside className={styles.chatListWrapper}>
-          {/* <button>Add Chat</button> */}
-          <ChatList chats={chats} chatId={chat?._id} setChat={setChat} />
+          {/* <button>Add Chat</button> chatId={chat?._id} setChat={setChat} */}
+          <ChatList chats={chats} />
         </aside>
         <main className={styles.chatAreaWrapper}>
-          <ChatArea chat={chat} userId={userId} setChats={setChats} setChat={setChat} />
+          <ChatArea userId={userId} setChats={setChats} />
         </main>
       </div>
     </>

@@ -17,3 +17,7 @@ export const userErrorCreator = (value) => ({
   payload: value,
 });
 export const logoutCreator = () => ({ type: ACTION_TYPES.LOGOUT });
+export const setChatCreator = (value) => ({
+  type: ACTION_TYPES.SET_CHAT,
+  payload: value,
+});

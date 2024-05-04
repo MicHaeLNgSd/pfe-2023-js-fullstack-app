@@ -3,17 +3,21 @@ import { Field, Form, Formik } from 'formik';
 import styles from './MessageForm.module.scss';
 import { addMessageToChat } from '../../../api';
 import * as Yup from 'yup';
-import { connect } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { setChatCreator } from '../../../store/actions/actionCreators';
 
 const inputPlaceholder = 'Enter your text';
-const initialValues = {
-  text: '',
-};
+const initialValues = { text: '' };
 const validationSchema = Yup.object({
   text: Yup.string().required(),
 });
 
-function MessageForm({ user, chatId, userId, chat, setChat, setChats }) {
+function MessageForm({ chat, setChats }) {
+  const dispatch = useDispatch();
+  const chatId = chat._id;
+  const user = useSelector((s) => s.user.user);
+  const userId = user._id;
+
   const handleSubmit = async (values, formikBag) => {
     const {
       data: { data: newMessage },
@@ -24,9 +28,9 @@ function MessageForm({ user, chatId, userId, chat, setChat, setChats }) {
 
     newMessage.author = user;
     setChats((chats) => {
-      const restChats = chats.filter((c) => c._id !== chat._id);
+      const restChats = chats.filter((c) => c._id !== chatId);
       const updatedChat = { ...chat, messages: [...chat.messages, newMessage] };
-      setChat((chat) => updatedChat);
+      dispatch(setChatCreator(updatedChat));
       const updatedChats = [updatedChat, ...restChats];
       return updatedChats;
     });
@@ -55,6 +59,4 @@ function MessageForm({ user, chatId, userId, chat, setChat, setChats }) {
   );
 }
 
-const mapStateToProps = ({ user }) => user;
-
-export default connect(mapStateToProps)(MessageForm);
+export default MessageForm;
