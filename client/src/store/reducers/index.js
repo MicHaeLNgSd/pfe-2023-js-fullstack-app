@@ -6,7 +6,7 @@ import chatReducer from './chatReducer';
 const rootReducer = combineReducers({
   counter: counterReducer,
   user: userReducer,
-  chat: chatReducer,
+  chats: chatReducer,
 });
 
 export default rootReducer;

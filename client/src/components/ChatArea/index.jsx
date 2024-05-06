@@ -5,14 +5,14 @@ import styles from './ChatArea.module.scss';
 import MessageItem from './MessageItem';
 import MessageForm from './MessageForm';
 
-function ChatArea({ userId, setChats }) {
-  const chat = useSelector((s) => s.chat.chat);
+function ChatArea({ userId }) {
+  const activeChat = useSelector((s) => s.chats.activeChat);
 
   const chatAreaClassNames = classNames(styles.chatArea, {
-    [styles.chatAreaNoChat]: !chat,
+    [styles.chatAreaNoChat]: !activeChat,
   });
 
-  if (!chat)
+  if (!activeChat)
     return (
       <article className={chatAreaClassNames}>
         <h2 className={styles.selectChatMsg}>Select chat to start.</h2>

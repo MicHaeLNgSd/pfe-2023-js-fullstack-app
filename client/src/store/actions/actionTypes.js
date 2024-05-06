@@ -11,7 +11,11 @@ const ACTION_TYPES = {
   USER_ERROR: 'user/userError',
   LOGOUT: 'logout',
 
-  SET_CHAT: 'chat/setChat',
+  CHAT_REQUEST: 'chat/chatRequest',
+  CHAT_SUCCESS: 'chat/chatSuccess',
+  CHAT_ERROR: 'chat/chatError',
+  SET_CHATS: 'chat/setChats',
+  SET_ACTIVE_CHAT: 'chat/setChat',
 };
 
 export default ACTION_TYPES;
